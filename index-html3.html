@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IE Notes Archive</title>
+  <style>
+    html, body {
+      height: 100%;
+    }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-image: url('ctu.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      color: white;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(16, 16, 56, 0.92); /* transparent overlay */
+      z-index: -1; 
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+    }
+    header img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+    }
+    nav button {
+      background: none;
+      border: none;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    nav button:first-child {
+      border-bottom: 2px solid white;
+    }
+    section {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .highlight {
+      color: #fb923c;
+    }
+    .btn {
+      background-color: #fb923c;
+      padding: 10px 20px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #f97316;
+    }
+    .upload-btn {
+      margin-bottom: 1.5rem;
+      background-color: #71240ba9;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      margin-bottom: 1.5rem;
+      color: black;
+    }
+    .year-buttons button,
+    .semester-buttons button  {
+      padding: 10px;
+      margin: 4px;
+      border-radius: 6px;
+      border: none;
+      color: white;
+      background-color: #b0b7ca;
+      cursor: pointer;
+    }
+    .year-buttons button.active,
+    .semester-buttons button.active {
+      background-color: #fb923c;
+    }
+    .notes {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .note-card {
+      background-color: #1e1978;
+      padding: 12px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .note-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .upload-label {
+      cursor: pointer;
+      color: #bdbfd8;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 1rem;
+    }
+    .note-card button {
+      font-size: 0.8rem;
+      background-color: transparent;
+      border: 1px solid white;
+      padding: 4px 8px;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+     /* Modal Styles */
+     #learnModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    #learnModal .modal-content {
+      background: white;
+      color: black;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+    }
+    #learnModal .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .toast {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 8px;
+  padding: 12px;
+  position: fixed;
+  z-index: 999;
+  left: 50%;
+  bottom: 30px;
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity 0.5s ease, bottom 0.5s ease;
+}
+
+.toast.show {
+  visibility: visible;
+  opacity: 1;
+  bottom: 50px;
+}
+  </style>
+</head>
+<body>
+  <header>
+    <div style="display: flex; align-items: center; gap: 3px;">
+      <img src="notes.png" alt="CognitEve Notes Logo" />
+      <div>
+        <h2 class="highlight">IE NOTES ARCHIVE</h2>
+        <p>Your Gateway to Excellence</p>
+      </div>
+    </div>
+    <nav>
+      <nav>
+  <button onclick="showPage('home')">Home</button>
+  <button onclick="showPage('contact')">Contact</button>
+</nav>
+    </nav>
+  </header>
+
+
+<div id="homePage">
+  <section>
+    <h1 style="font-size: 2.5rem; font-weight: bold;">IE Notes Archive</h1>
+    <p class="highlight">Empowering Industrial Engineers, One Note at a Time</p>
+       <button class="btn" onclick="goToYears()" style="margin-left: 10px;">Start Browsing</button>
+    <div style="background-color: rgba(193, 112, 19, 0.463); padding: 20px; margin-top: 20px; border-radius: 10px; text-align: justify;">
+  <h2 style="color:#facc15;">Explore the Archive</h2>
+  <p><strong>IE Notes Archive</strong> is a comprehensive and dynamic platform tailored for Industrial Engineering students. Our vision is to inspire excellence and promote knowledge-sharing across all academic levels.</p>
+  
+  <p>📘 Access semester-wise organized materials<br>
+  🧠 Strengthen foundational knowledge with curated topics<br>
+  🚀 Download notes easily<br>
+  🌍 Build a collaborative learning environment<br>
+  💡 Stay updated with new additions and features</p>
+
+  <p style="margin-top: 1rem;">Whether you're revising for exams, preparing for projects, or exploring new subjects, IE Notes Archive is here to assist you at every step.</p>
+</div>
+
+  </section>
+</div>
+
+<div class="container">
+    <div id="yearPage" style="display: none;">
+      <input type="text" id="search" placeholder="Search notes..." />
+  <button class="btn" onclick="goBack()">Back to Home</button>
+  <h2 style="text-align: center;">Choose a Year</h2>
+  <div class="year-buttons" id="yearButtons"></div>
+  <div class="semester-buttons" id="semesterButtons"></div>
+  <button class="btn upload-btn" onclick="document.getElementById('fileUpload').click()">🔗 Upload File</button>
+  <input type="file" id="fileUpload" style="display: none;" />
+  <div class="notes" id="notesGrid"></div>
+</div>
+<div id="contactPage" style="display: none; text-align: center; padding: 40px;">
+  <h2 class="highlight" style="margin-bottom: 20px;">Contact Us</h2>
+  <p>📧 <strong>Email:</strong> monevanancyyy@gmail.com</p>
+  <p>📞 <strong>Phone:</strong> +63 9082960462</p>
+  <p>📍 <strong>Location:</strong> CTU Danao Campus, Cebu City, Philippines</p>
+
+  <form id="contactForm" style="margin-top: 30px; max-width: 500px; margin-inline: auto; text-align: left;">
+    <label for="name">Name:</label><br/>
+    <input type="text" id="name" placeholder="Your name" required /><br/><br/>
+    
+    <label for="email">Email:</label><br/>
+    <input type="email" id="email" placeholder="Your email" required /><br/><br/>
+    
+    <label for="message">Message:</label><br/>
+    <textarea id="message" rows="5" placeholder="Your message..." style="width: 100%; padding: 10px; border-radius: 6px;" required></textarea><br/><br/>
+    
+    <button type="submit" class="btn">Send Message</button>
+  </form>
+</div>
+
+</div>
+</div>
+<script>
+  function goToYears() {
+  document.getElementById("homePage").style.display = "none";
+  document.getElementById("yearPage").style.display = "block";
+}
+
+function goBack() {
+  document.getElementById("yearPage").style.display = "none";
+  document.getElementById("homePage").style.display = "block";
+}
+function showPage(page) {
+  document.getElementById("homePage").style.display = page === "home" ? "block" : "none";
+  document.getElementById("yearPage").style.display = "none";
+  document.getElementById("contactPage").style.display = page === "contact" ? "block" : "none";
+}
+document.getElementById("contactForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  showToast("Message sent! We'll get back to you soon.");
+  this.reset();
+});
+</script>
+
+ <div id="learnModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2 style="text-align:center; color:#1e40af;">Explore the Archive</h2>
+      <p><strong>IE Notes Archive</strong> is a comprehensive and dynamic platform tailored for Industrial Engineering students. Our vision is to inspire excellence and promote knowledge-sharing across all academic levels.</p>
+      <ul style="color: #333; line-height: 1.6; margin-top: 1rem;">
+        <li>📘 Access semester-wise organized materials</li>
+        <li>🧠 Strengthen foundational knowledge with curated topics</li>
+        <li>🚀 Download notes easily</li>
+        <li>🌍 Build a collaborative learning environment</li>
+        <li>💡 Stay updated with new additions and features</li>
+      </ul>
+      <p style="margin-top: 1rem;">Whether you're revising for exams, preparing for projects, or exploring new subjects—IE Notes Archive is here to assist you at every step.</p>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    const defaultNotes = {
+  "1st Year": {
+    "1st Semester": ["Math Basics.pdf", "Intro to Programming.docx"],
+    "2nd Semester": ["Physics.pdf", "Engineering Drawing.docx"]
+  },
+  "2nd Year": {
+    "1st Semester": [
+      "WORK STUDY & MEASUREMENT.pdf",
+      "THE CONTEMPORARY WORLD.pdf",
+      "SYSTEM DYNAMICS.pdf",
+      "PROJECT MANAGEMENT.pdf",
+      "PHYSICAL EDUCATION 4.pdf",
+      "LIVING IN THE IT ERA.pdf",
+      "LIFE AND WORKS OF RIZAL.pdf",
+      "INFORMATION SYSTEM.pdf",
+      "ENGINEERING ECONOMICS.pdf"
+    ],
+    "2nd Semester": [
+      "Discrete Math.pdf",
+      "Thermodynamics.docx",
+      "WORK STUDY & MEASUREMENT.pdf",
+      "THE CONTEMPORARY WORLD.pdf",
+      "SYSTEM DYNAMICS.pdf",
+      "PROJECT MANAGEMENT.pdf",
+      "PHYSICAL EDUCATION 4.pdf",
+      "LIVING IN THE IT ERA.pdf",
+      "LIFE AND WORKS OF RIZAL.pdf",
+      "INFORMATION SYSTEM.pdf",
+      "ENGINEERING ECONOMICS.pdf"
+    ]
+  },
+  "3rd Year": {
+    "1st Semester": ["Operations Research.pdf", "IE Systems.docx"],
+    "2nd Semester": ["Simulation Models.pdf", "Quality Control.docx"]
+  },
+  "4th Year": {
+    "1st Semester": ["Capstone Guidelines.pdf", "Project Management.docx"],
+    "2nd Semester": ["Feasibility Study.docx", "Business Plan.pdf"]
+  }
+};
+
+   let notesData = JSON.parse(localStorage.getItem("notesData")) || defaultNotes;
+    let currentYear = "1st Year";
+    let currentSemester = "1st Semester";
+
+    const yearButtons = document.getElementById("yearButtons");
+    const semesterButtons = document.getElementById("semesterButtons");
+    const notesGrid = document.getElementById("notesGrid");
+    const searchInput = document.getElementById("search");
+
+    function saveNotesToStorage() {
+      localStorage.setItem("notesData", JSON.stringify(notesData));
+    }
+
+    function renderYearButtons() {
+      yearButtons.innerHTML = "";
+      for (let year in notesData) {
+        const btn = document.createElement("button");
+        btn.textContent = year;
+        btn.className = currentYear === year ? "active" : "";
+        btn.onclick = () => {
+          currentYear = year;
+          currentSemester = "1st Semester";
+          renderYearButtons();
+          renderSemesterButtons();
+          renderNotes();
+        };
+        yearButtons.appendChild(btn);
+      }
+    }
+
+    function renderSemesterButtons() {
+      semesterButtons.innerHTML = "";
+      ["1st Semester", "2nd Semester"].forEach(sem => {
+        const btn = document.createElement("button");
+        btn.textContent = sem;
+        btn.className = currentSemester === sem ? "active" : "";
+        btn.onclick = () => {
+          currentSemester = sem;
+          renderSemesterButtons();
+          renderNotes();
+        };
+        semesterButtons.appendChild(btn);
+      });
+    }
+    function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.className = "toast show";
+  setTimeout(() => {
+    toast.className = "toast";
+  }, 3000);
+}
+
+function renderNotes() {
+  const searchTerm = searchInput.value.toLowerCase();
+  const currentNotes = notesData[currentYear][currentSemester];
+  const filtered = currentNotes.filter(note => {
+    const name = typeof note === "string" ? note : note.name;
+    return name.toLowerCase().includes(searchTerm);
+  });
+
+  notesGrid.innerHTML = "";
+
+  if (filtered.length === 0) {
+    notesGrid.innerHTML = "<p style='grid-column: 1 / -1; text-align: center; color: gray;'>No notes found.</p>";
+    return;
+  }
+
+  filtered.forEach(note => {
+    const noteDiv = document.createElement("div");
+    noteDiv.className = "note-card";
+
+    const name = typeof note === "string" ? note : note.name;
+    const nameSpan = document.createElement("span");
+    nameSpan.className = "note-name";
+    nameSpan.innerHTML = "📄 " + name;
+
+    const downloadBtn = document.createElement("button");
+    downloadBtn.textContent = "Download";
+    downloadBtn.onclick = () => {
+      if (typeof note === "string") {
+        showToast("⛔ This file has no stored content.");
+        return;
+      }
+      const link = document.createElement("a");
+      link.href = note.content;
+      link.download = note.name;
+      link.click();
+    };
+
+
+
+const actionsDiv = document.createElement("div");
+actionsDiv.style.display = "flex";
+actionsDiv.appendChild(downloadBtn);
+
+noteDiv.appendChild(nameSpan);
+noteDiv.appendChild(actionsDiv);
+notesGrid.appendChild(noteDiv);
+  });
+}
+
+    searchInput.addEventListener("input", renderNotes);
+
+  document.getElementById("fileUpload").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  if (!notesData[currentYear]) {
+    notesData[currentYear] = {};
+  }
+  if (!notesData[currentYear][currentSemester]) {
+    notesData[currentYear][currentSemester] = [];
+  }
+
+  const currentNotes = notesData[currentYear][currentSemester];
+
+  const alreadyExists = currentNotes.some(note =>
+    (typeof note === "string" && note.toLowerCase() === file.name.toLowerCase()) ||
+    (note.name && note.name.toLowerCase() === file.name.toLowerCase())
+  );
+
+  if (!alreadyExists) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      currentNotes.push({
+        name: file.name,
+        content: event.target.result,
+        type: file.type
+      });
+      saveNotesToStorage();
+      renderNotes();
+      showToast(`✅ ${file.name} uploaded successfully!`);
+    };
+    reader.readAsDataURL(file);
+  } else {
+    showToast(`⚠️ ${file.name} is already in the list.`);
+  }
+});
+
+
+
+    function openModal() {
+      document.getElementById("learnModal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("learnModal").style.display = "none";
+    }
+
+    window.addEventListener("click", function (e) {
+      const modal = document.getElementById("learnModal");
+      if (e.target === modal) closeModal();
+    });
+
+  
+    renderYearButtons();
+    renderSemesterButtons();
+    renderNotes();
+
+  </script>
+</body>
+</html>
